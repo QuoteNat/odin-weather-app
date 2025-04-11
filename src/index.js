@@ -6,7 +6,8 @@ console.log("Hello world!");
 const searchBar = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
 const displayDiv = document.getElementById("display");
-let fahrenheit = false;
+const unitButton = document.getElementById("unit-button");
+let fahrenheit = true;
 
 function toCelsius(tempF) {
   return (tempF - 32) / (9 / 5);
@@ -59,4 +60,13 @@ async function display(searchTerm) {
 searchButton.addEventListener("click", () => {
   console.log("Searching for " + searchBar.value);
   display(searchBar.value);
+});
+
+unitButton.addEventListener("click", () => {
+  if (fahrenheit) {
+    unitButton.innerHTML = "°F/<b>°C</b>";
+  } else {
+    unitButton.innerHTML = "<b>°F</b>/°C";
+  }
+  fahrenheit = !fahrenheit;
 });
