@@ -5,15 +5,43 @@ console.log("Hello world!");
 
 const searchBar = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
+const displayDiv = document.getElementById("display");
 
-let testString = "New York City, New York";
-getWeatherData(testString).then(function (result) {
-  console.log(result);
-});
+/**
+ * Render the weather data for a given search
+ * @param {*} searchTerm
+ */
+async function display(searchTerm) {
+  displayDiv.textContent = "";
+  try {
+    let weatherData = await getWeatherData(searchTerm);
+    for (let i = 0; i < weatherData.length; i++) {
+      let day = weatherData[i];
+      console.log(day);
+      const weatherCard = document.createElement("div");
+      weatherCard.className = "weather-card";
+      const high = document.createElement("div");
+      high.textContent = day.tempMax;
+      const low = document.createElement("div");
+      low.textContent = day.tempMin;
+      // Hit game risk of rain?!?!?!?!
+      const riskOfRain = document.createElement("div");
+      riskOfRain.textContent = day.precipProbability;
+      const cloudCover = document.createElement("div");
+      cloudCover.textContent = day.cloudCover;
+
+      weatherCard.appendChild(high);
+      weatherCard.appendChild(low);
+      weatherCard.appendChild(riskOfRain);
+      weatherCard.appendChild(cloudCover);
+      displayDiv.appendChild(weatherCard);
+    }
+  } catch (error) {
+    console.log("Error!" + error);
+  }
+}
 
 searchButton.addEventListener("click", () => {
   console.log("Searching for " + searchBar.value);
-  getWeatherData(searchBar.value).then((result) => {
-    console.log(result);
-  });
+  display(searchBar.value);
 });
