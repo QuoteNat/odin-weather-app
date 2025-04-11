@@ -28,9 +28,9 @@ async function display(searchTerm) {
       low.textContent = day.tempMin;
       // Hit game risk of rain?!?!?!?!
       const riskOfRain = document.createElement("div");
-      riskOfRain.textContent = day.precipProbability;
+      riskOfRain.textContent = day.precipProbability + "% ☂";
       const cloudCover = document.createElement("div");
-      cloudCover.textContent = day.cloudCover;
+      cloudCover.textContent = day.cloudCover + "% ☁";
 
       weatherCard.appendChild(date);
       weatherCard.appendChild(high);
