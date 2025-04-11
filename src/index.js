@@ -20,6 +20,8 @@ async function display(searchTerm) {
       console.log(day);
       const weatherCard = document.createElement("div");
       weatherCard.className = "weather-card";
+      const date = document.createElement("div");
+      date.textContent = day.date;
       const high = document.createElement("div");
       high.textContent = day.tempMax;
       const low = document.createElement("div");
@@ -30,6 +32,7 @@ async function display(searchTerm) {
       const cloudCover = document.createElement("div");
       cloudCover.textContent = day.cloudCover;
 
+      weatherCard.appendChild(date);
       weatherCard.appendChild(high);
       weatherCard.appendChild(low);
       weatherCard.appendChild(riskOfRain);

@@ -14,6 +14,7 @@ async function getWeatherData(location) {
   for (const day in data.days) {
     let dayData = data.days[day];
     processedData.push({
+      date: dayData.datetime,
       tempMax: dayData.tempmax,
       tempMin: dayData.tempmin,
       precipProbability: dayData.precipprob,
