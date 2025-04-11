@@ -6,6 +6,11 @@ console.log("Hello world!");
 const searchBar = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
 const displayDiv = document.getElementById("display");
+let fahrenheit = false;
+
+function toCelsius(tempF) {
+  return (tempF - 32) / (9 / 5);
+}
 
 /**
  * Render the weather data for a given search
@@ -22,10 +27,17 @@ async function display(searchTerm) {
       weatherCard.className = "weather-card";
       const date = document.createElement("div");
       date.textContent = day.date;
+
       const high = document.createElement("div");
-      high.textContent = day.tempMax;
       const low = document.createElement("div");
-      low.textContent = day.tempMin;
+      if (fahrenheit) {
+        high.textContent = day.tempMax;
+        low.textContent = day.tempMin;
+      } else {
+        high.textContent = toCelsius(day.tempMax).toFixed(1);
+        low.textContent = toCelsius(day.tempMin).toFixed(1);
+      }
+
       // Hit game risk of rain?!?!?!?!
       const riskOfRain = document.createElement("div");
       riskOfRain.textContent = day.precipProbability + "% ☂";
