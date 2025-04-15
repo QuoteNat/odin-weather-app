@@ -1,7 +1,6 @@
 import "./style.css";
 import "./app.js";
 import getWeatherData from "./app.js";
-console.log("Hello world!");
 
 const searchBar = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
@@ -17,14 +16,21 @@ function lerp(a, b, t) {
   let tFilter = Math.min(Math.max(t, 0.0), 1.0);
   return a + tFilter * (b - a);
 }
-function renderBackground(high, cloudCover, riskOfRain) {
+function renderBackground(high, cloudCover) {
   const body = document.getElementById("body");
   let hotColor = [255, 165, 0];
   let coldColor = [0, 0, 255];
   let tempPercentage = high / 100;
-  let tempColor = [lerp(coldColor[0], hotColor[0], tempPercentage),
-    lerp(coldColor[1], hotColor[1], tempPercentage),
-    lerp(coldColor[2], hotColor[2], tempPercentage)]
+  let tempColor = [];
+
+  for (let i = 0; i < 3; i++) {
+    // Linearlly interpolate between hot and cold colors, and then between that and gray based on cloud cover.
+    tempColor[i] = lerp(
+      lerp(coldColor[i], hotColor[i], tempPercentage),
+      128,
+      cloudCover / 100,
+    );
+  }
   body.style.background = `rgb(${Math.round(tempColor[0])}, ${Math.round(tempColor[1])}, ${Math.round(tempColor[2])})`;
 }
 
@@ -38,7 +44,6 @@ async function display(searchTerm) {
     let weatherData = await getWeatherData(searchTerm);
     for (let i = 0; i < 7; i++) {
       let day = weatherData[i];
-      console.log(day);
       const weatherCard = document.createElement("div");
       weatherCard.className = "weather-card";
       const date = document.createElement("div");
@@ -59,8 +64,12 @@ async function display(searchTerm) {
       riskOfRain.textContent = day.precipProbability + "% ☂";
       const cloudCover = document.createElement("div");
       cloudCover.textContent = day.cloudCover + "% ☁";
-      if (i===0) {
-        renderBackground(parseFloat(high.textContent), day.cloudCover, day.precipProbability);
+      if (i === 0) {
+        renderBackground(
+          parseFloat(high.textContent),
+          day.cloudCover,
+          day.precipProbability,
+        );
       }
       weatherCard.appendChild(date);
       weatherCard.appendChild(high);
@@ -69,8 +78,12 @@ async function display(searchTerm) {
       weatherCard.appendChild(cloudCover);
       displayDiv.appendChild(weatherCard);
       weatherCard.addEventListener("mouseenter", () => {
-        renderBackground(parseFloat(high.textContent), day.cloudCover, day.precipProbability);
-      })
+        renderBackground(
+          parseFloat(high.textContent),
+          day.cloudCover,
+          day.precipProbability,
+        );
+      });
     }
   } catch (error) {
     console.log("Error!" + error);
@@ -78,7 +91,6 @@ async function display(searchTerm) {
 }
 
 searchButton.addEventListener("click", () => {
-  console.log("Searching for " + searchBar.value);
   display(searchBar.value);
 });
 
