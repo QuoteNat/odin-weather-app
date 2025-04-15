@@ -6,18 +6,20 @@
 
 .weather-card {
     gap: auto;
-    flex-grow: 1;
-    flex-shrink: 1;
-    border-style: solid;
     border-width: 1px;
     border-radius: 5px;
+    background:  #87CEEB;
+    background: linear-gradient(0deg, rgba(135, 206, 235, 1) 0%, rgba(178, 255, 255, 1) 100%);
+    padding: 1em;
 }
 
 #display {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
     width: 100%;
     overflow: scr;
+    justify-content: center;
 }
 
 .toolbar {
