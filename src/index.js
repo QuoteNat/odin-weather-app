@@ -51,6 +51,8 @@ async function display(searchTerm) {
 
       const high = document.createElement("div");
       const low = document.createElement("div");
+      high.classList = "high";
+      low.classList = "low";
       if (fahrenheit) {
         high.textContent = day.tempMax;
         low.textContent = day.tempMin;
