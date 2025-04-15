@@ -13,6 +13,21 @@ function toCelsius(tempF) {
   return (tempF - 32) / (9 / 5);
 }
 
+function lerp(a, b, t) {
+  let tFilter = Math.min(Math.max(t, 0.0), 1.0);
+  return a + tFilter * (b - a);
+}
+function renderBackground(high, cloudCover, riskOfRain) {
+  const body = document.getElementById("body");
+  let hotColor = [255, 165, 0];
+  let coldColor = [0, 0, 255];
+  let tempPercentage = high / 100;
+  let tempColor = [lerp(coldColor[0], hotColor[0], tempPercentage),
+    lerp(coldColor[1], hotColor[1], tempPercentage),
+    lerp(coldColor[2], hotColor[2], tempPercentage)]
+  body.style.background = `rgb(${Math.round(tempColor[0])}, ${Math.round(tempColor[1])}, ${Math.round(tempColor[2])})`;
+}
+
 /**
  * Render the weather data for a given search
  * @param {*} searchTerm
@@ -44,13 +59,18 @@ async function display(searchTerm) {
       riskOfRain.textContent = day.precipProbability + "% ☂";
       const cloudCover = document.createElement("div");
       cloudCover.textContent = day.cloudCover + "% ☁";
-
+      if (i===0) {
+        renderBackground(parseFloat(high.textContent), day.cloudCover, day.precipProbability);
+      }
       weatherCard.appendChild(date);
       weatherCard.appendChild(high);
       weatherCard.appendChild(low);
       weatherCard.appendChild(riskOfRain);
       weatherCard.appendChild(cloudCover);
       displayDiv.appendChild(weatherCard);
+      weatherCard.addEventListener("mouseenter", () => {
+        renderBackground(parseFloat(high.textContent), day.cloudCover, day.precipProbability);
+      })
     }
   } catch (error) {
     console.log("Error!" + error);
