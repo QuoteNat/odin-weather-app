@@ -21,7 +21,7 @@ async function display(searchTerm) {
   displayDiv.textContent = "";
   try {
     let weatherData = await getWeatherData(searchTerm);
-    for (let i = 0; i < weatherData.length; i++) {
+    for (let i = 0; i < 7; i++) {
       let day = weatherData[i];
       console.log(day);
       const weatherCard = document.createElement("div");
