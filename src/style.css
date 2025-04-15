@@ -29,6 +29,10 @@ html, body {
     justify-content: center;
     margin: 1em;
     gap: 1em;
+    border-radius: 5px;
+    background: #ff6666;
+    background: linear-gradient(0deg, rgba(255, 102, 102, 1) 0%, rgba(255, 153, 94, 1) 100%);
+    padding: 1em;
 }
 
 .high {
